@@ -33,5 +33,3 @@ with open(options.template) as htmlfile:
             html = HTML(string=html)
             css = CSS(string='@page { size: A4; margin: 1cm }')
             html.write_pdf(f"certificate/cert_{index + 1}.pdf", stylesheets=[css])
-
-
