@@ -30,6 +30,6 @@ with open(options.template) as htmlfile:
             html = text
             for i in range(len(header)):
                 html = html.replace("{{" + header[i] + "}}", row[i])
-            html = HTML(string=html)
-            css = CSS(string='@page { size: A4; margin: 1cm }')
+            html = HTML(string=html, base_url='.')
+            css = CSS(string='''@page { size: A4; margin: 0cm }''')
             html.write_pdf(f"certificate/cert_{index + 1}.pdf", stylesheets=[css])
