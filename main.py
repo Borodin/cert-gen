@@ -3,11 +3,13 @@ import os
 import re
 import optparse
 import requests
+import uuid
 from weasyprint import HTML, CSS
 
 parser = optparse.OptionParser()
 parser.add_option('-t', '--template', type='string', default='template.html')
 parser.add_option('-c', '--csv', type='string', default='students.csv')
+parser.add_option('-o', '--output', type='string', default='output.csv')
 
 options, arguments = parser.parse_args()
 
@@ -24,12 +26,18 @@ if re.search('google.com', options.csv):
 with open(options.template) as htmlfile:
     with open(options.csv, newline='', encoding='utf-8-sig') as csvfile:
         reader = csv.reader(csvfile)
+        writer = csv.writer(open(options.output, 'w'))
         header = next(reader)
+        writer.writerow(header)
         text = htmlfile.read()
         for index, row in enumerate(reader):
             html = text
+            url = f'certificate/{uuid.uuid4()}.pdf'
             for i in range(len(header)):
                 html = html.replace("{{" + header[i] + "}}", row[i])
+                if (header[i] == 'link'):
+                    row[i] = url
             html = HTML(string=html, base_url='.')
+            writer.writerow(row)
             css = CSS(string='''@page { size: A4; margin: 0cm }''')
-            html.write_pdf(f"certificate/cert_{index + 1}.pdf", stylesheets=[css])
+            html.write_pdf(url, stylesheets=[css])
