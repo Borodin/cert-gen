@@ -1,0 +1,12 @@
+host: cert.maths-h.ru
+hasWww: true
+path: /
+name: maths-hub-cert
+replicas: 1
+service:
+  targetPort: 8000
+  port: 80
+image:
+  pullSecrets: ghcr-borodindk
+  repository: ghcr.io/borodin/cert-get
+  tag: main
