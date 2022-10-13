@@ -8,5 +8,5 @@ service:
   port: 80
 image:
   pullSecrets: ghcr-borodindk
-  repository: ghcr.io/borodin/cert-get
+  repository: ghcr.io/borodin/cert-gen
   tag: main
